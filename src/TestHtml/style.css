@@ -1,0 +1,10 @@
+input[type='text'] {
+    background-color: pink
+}
+input[type='password'] {
+    background-color: yellow
+}
+input[type='cheakbox'] {
+    color: green
+}
+

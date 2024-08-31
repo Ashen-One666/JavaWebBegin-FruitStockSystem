@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>htmlTest</title>
+    <style type="text/css">
+        @import url("style.css");
+    </style>
+    <script type="text/javascript" src="jsTest.js"></script>
+</head>
+<body>
+
+<!--
+    表单提交方式为post时, 提交数据查看方式:
+    F12进入开发者模式 -> 网络(上方工具栏) -> 填写并提交表单
+    -> 出现***(主函数).html -> 点击并打开"负载" -> 查看到表单数据
+
+    表单提交方式为get时, 提交数据查看方式:
+    信息会附在URL后面(不安全)
+
+    action: 提交的目的地
+-->
+<form name="form" method="post" action="actionTest.html">
+    <h2 align="left">我是表单</h2><br/>
+    <label for="username"> 用户名：</label>
+    <input type="text" name="username" id="username" placeholder="请输入用户名">
+    <label for="password">密码：</label>
+    <input type="password" name="password" id="password" placeholder="请输入密码">
+    <br>
+    <label>性别：</label>
+    <input type="radio" name="sex" id="male" value="男" checked="checked"/>男
+    <input type="radio" name="sex" id="female" value="女"/>女
+    <br>
+    <label>爱好：</label>
+    <input type="checkbox" name="hobbies" id="Java" value="Java" checked="checked"/>Java
+    <input type="checkbox" name="hobbies" id="JavaScript" value="JavaScript"/>JavaScript
+    <input type="checkbox" name="hobbies" id="C++" value="C++"/>C++
+    <br>
+    <label>国籍：</label>
+    <select name="Nationality" id="Nationality">
+        <option>--请选择国籍--</option>
+        <option value="China">中国</option>
+        <option value="America">美国</option>
+        <option value="England">英国</option>
+        <option value="Singapore">新加坡</option>
+    </select>
+    <br>
+    <label>邮箱：</label>
+    <input type="text" name="email" id="email" size="50">
+    <br>
+    <label>自我评价：</label>
+    <br>
+    <textarea name="selfEvaluation" id="selfEvaluation" rows="5" cols="20">输入内容</textarea><br/>
+    <!-- 注意, 按钮在表单form内部时, 点击按钮表单会默认提交(刷新页面)导致点击按钮想要跳转其他网页无法实现
+     此时需要将按钮移除form或明确地阻止表单提交(.js中调用 event.preventDefault())-->
+    <a href="https://www.baidu.com" target="_blank">百度一下</a>
+    <button id="jsTest">js测试</button>
+    <input type="reset" value="清空"/>
+    <input type="submit" value="提交"/>
+</form>
+<br>
+<br>
+
+<h2 align="left">我是一个单独的完整页面iframe</h2><br>
+<iframe src="iframeContent.html" width="500px" height="200px" border="0" scrolling="auto"></iframe>
+<br><br>
+
+<h2 align="left">我是表格</h2><br>
+<table border="1", width="500px" height="300px" cellspacing="1" cellpadding="4">
+    <tr>
+        <th>1.1</th>
+        <th>1.2</th>
+        <th>1.3</th>
+    </tr>
+    <tr align="center">
+        <td >2.1</td>
+        <td colspan="2">2.2 + 2.3</td>
+    </tr>
+    <tr align="center">
+        <td  rowspan="2">3.1<br/>&<br/>4.1</td>
+        <td>3.2</td>
+        <td>3.3</td>
+    </tr>
+    <tr align="center">
+        <td>4.2</td>
+        <td>4.3</td>
+    </tr>
+</table>
+<br>
+<hr>
+<br>
+<table border="1", width="500px" height="300px" cellspacing="1" cellpadding="4">
+    <tr>
+        <th>名称</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+    </tr>
+    <tr align="center">
+        <td>苹果</td>
+        <td rowspan="2">5</td>
+        <td>10</td>
+        <td>50</td>
+        <td><img src="src/deleteJPG.jpg" width="24" height="24"></td>
+    </tr>
+    <tr align="center">
+        <td>菠萝</td>
+        <!--
+        <td>5</td>
+        -->
+        <td>20</td>
+        <td>100</td>
+        <td><img src="src/deleteJPG.jpg" width="24" height="24"></td>
+    </tr>
+    <tr align="center">
+        <td>西瓜</td>
+        <td>2</td>
+        <td>5</td>
+        <td>10</td>
+        <td><img src="src/deleteJPG.jpg" width="24" height="24"></td>
+    </tr>
+    <tr align="center">
+        <td>总价格</td>
+        <td colspan="3">160</td>
+        <td><img src="src/deleteJPG.jpg" width="24" height="24"></td>
+    </tr>
+</table>
+</body>
+</html>
