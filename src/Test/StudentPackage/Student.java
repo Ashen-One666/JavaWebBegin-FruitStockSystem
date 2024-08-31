@@ -1,4 +1,4 @@
-package StudentPackage;
+package Test.StudentPackage;
 
 public class Student implements Person {
     public String name;

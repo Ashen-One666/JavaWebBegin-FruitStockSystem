@@ -9,7 +9,7 @@ public class TestReflect {
     public static void main(String[] args) throws Exception {
         // 获取Student类的Class对象
         // 在main函数后面throws异常就不用写try了
-        Class cls = Class.forName("StudentPackage.Student");
+        Class cls = Class.forName("Test.StudentPackage.Student");
 
         // 获取包名
         Package packageName = cls.getPackage();
@@ -22,7 +22,7 @@ public class TestReflect {
         System.out.print(modifier);
 
         // 获取类名
-        // 注: getName()是返回全称(带包名), 如"StudentPackage.Student"
+        // 注: getName()是返回全称(带包名), 如"Test.StudentPackage.Student"
         String className = cls.getSimpleName();
         System.out.print(" class " + className);
 

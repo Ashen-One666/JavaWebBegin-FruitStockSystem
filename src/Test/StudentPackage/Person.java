@@ -1,4 +1,4 @@
-package StudentPackage;
+package Test.StudentPackage;
 
 public interface Person {
     public void eat();

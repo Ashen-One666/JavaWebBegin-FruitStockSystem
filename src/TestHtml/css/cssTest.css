@@ -1,10 +1,98 @@
-input[type='text'] {
-    background-color: pink
-}
-input[type='password'] {
-    background-color: yellow
-}
-input[type='cheakbox'] {
-    color: green
+/*
+    CSS盒子模型:
+    1.border 边框
+    1.margin 间距
+    1.padding 填充
+*/
+body{
+    margin: 10px;
+    padding: 0;
 }
 
+#div1{
+    width: 500px;
+    height: 400px;
+    background-color: aquamarine;
+
+    /*border 边框样式*/
+    /*
+    border-width: 4px;
+    border-style: solid;
+    border-color: cadetblue;
+    */
+    border: 4px solid cadetblue;
+}
+
+input[type='text'] {
+    background-color: lightblue;
+}
+input[type='password'] {
+    background-color: lightblue;
+}
+
+/* 移除浏览器默认样式 */
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #007BFF; /* 外圈颜色 */
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+/* 自定义radio的样式 */
+input[type="radio"]:checked {
+    background-color: #007BFF; /* 选中的颜色 */
+}
+
+/*
+    浏览器之间有兼容性问题, 不同浏览器可能显示的尺寸、位置等不一样
+    旧版IE浏览器： 实际尺寸 = width
+    chrome浏览器： 实际尺寸 = width + 左右 border_width + padding
+*/
+input[type="radio"]:checked::before {
+    content: '';
+    display: block;
+    width: 7px;
+    height: 7px;
+    background-color: #fff; /* 内圈颜色 */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 4px #007BFF; /* 用 box-shadow 修正边缘 */
+}
+
+#Nationality{
+    background-color: lightblue;
+}
+
+#iframe{
+    width: 500px;
+    height: 200px;
+    border: 4px solid cadetblue;
+    /*scrolling="auto"*/
+    overflow: auto;
+}
+
+/* 设置表格样式 */
+#table1, #table2 {
+    width: 500px;
+    height: 300px;
+    border: 1px solid black;
+    border-collapse: collapse; /* 合并边框 */
+}
+#table1 th, #table1 td,
+#table2 th, #table2 td{
+    border: 1px solid black; /* 单元格边框 */
+    padding: 4px; /* 对应 HTML 中的 cellpadding */
+}
+/* 设置表格行内容居中 */
+.centered-row th,
+.centered-row td {
+    text-align: center;
+}

@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+div{
+    /*
+    position: relative;
+    float: left;
+    */
+}
+#div_container{
+    width: 80%;
+    height: 100%;
+    border: 1px solid blue;
+    margin-left: 10%;
+    float: left;
+}
+#tbl_fruit{
+    border: 1px solid gray;
+    width: 100%;
+}
