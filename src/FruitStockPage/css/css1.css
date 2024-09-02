@@ -13,7 +13,7 @@ div{
     border: 1px solid blue;
     margin-left: 10%;
     float: left;
-    background-color: paleturquoise;
+    background-color: #afffe7;
     border-radius: 8px;
 }
 #div_fruit_list{
@@ -44,23 +44,38 @@ div{
     width: 24px;
 }
 #add_fruit_div{
-    border: 1px solid gray;
-    width: auto;
-    line-height: 28px;
-    margin: 20px 20%;
+    border: 0 solid gray;
+    width: 60%;
+    margin-left: 20%;
+}
+#tbl_add_fruit{
+    width: 35%;
+    margin-left: 32.5%;
 }
 #tbl_add_fruit, #tbl_add_fruit tr, #tbl_add_fruit th, #tbl_add_fruit td{
-    border: 0 solid gray;
+    border: 1px solid gray;
     border-collapse: collapse;
     text-align: center;
+    line-height: 28px;
     font-size: 16px;
     font-family: "微软雅黑", serif;
     font-weight: lighter;
     color: indigo;
 }
+#tbl_add_fruit td input[type='text'] {
+    background-color: #d5fff5;
+}
 #tbl_add_fruit th{
     font-size: 18px;
     font-family: "黑体", serif;
+}
+.w30{
+    width: 30%;
+}
+.input{
+    border: 1px solid lightgray;
+    width: 90%;
+    padding-left: 4px; /*光标距离输入框最左侧4px*/
 }
 .btn{
     border: 1px solid lightgray;
