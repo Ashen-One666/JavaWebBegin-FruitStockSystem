@@ -3,4 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!--
+     1. 用户发送请求 (即表单中的 action = "add")
+     2. 服务器(当前项目)中, web.xml找到 url-pattern = /add
+     3. 找servlet-name -> AddServlet
+     4. 找servlet-mapping中与servlet-name一致的servlet
+     5. 找servlet-class -> com.atguigu.servlets.AddServlet
+     6. 用户发送的是post请求, 因此容器tomcat会执行AddServlet中的doPost方法
+     -->
+
+    <servlet>
+        <servlet-name>AddServlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
 </web-app>
