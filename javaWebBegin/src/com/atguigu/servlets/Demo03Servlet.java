@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// 测试Servlet生命周期
 public class Demo03Servlet extends HttpServlet{
     public Demo03Servlet(){
         System.out.println("正在实例化...");

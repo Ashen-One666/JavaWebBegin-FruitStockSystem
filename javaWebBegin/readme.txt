@@ -62,7 +62,7 @@
 
 四、HTTP协议
     1. Http 称之为 超文本传输协议
-    2. Http是无状态的
+    2. Http是无状态的(见五)
     3. Http请求响应包含两部分：请求和响应
         - 请求：
             请求包含3个部分：1)请求行 2)请求消息头 3)请求主体
@@ -82,6 +82,34 @@
 // 404： 找不到资源
 // 405： 请求方式不支持
 // 500： 服务器内部错误
+
+五、会话
+    1. Http是无状态的
+        - 无状态：服务器无法区分两次请求是否是同一个客户端发来的
+        - 无状态带来的问题：比如第一次请求是添加商品，第二次是结账，如果无法区分是否是同一用户，会导致混乱
+        - 解决方案：通过会话跟踪技术(session)
+            (测试代码： Demo05Servlet URL：http://localhost:8080/demo05)
+    2. 会话跟踪技术
+        - 客户端第一次发请求给服务器，服务器获取session，获取不到，则创建新的，然后响应给服务器
+        - 下次客户端给服务器发请求时，会把sessionID带给服务器，那么服务器就能获取到了，此时就能判断是否是同一个客户端
+        - 采用API：
+            request.getSession() -> 获取当前的会话，没有则新建
+            request.getSession(true) -> 效果和不带参数相同
+            request.getSession(false) -> 获取当前的会话，没有则返回null，不会新建
+
+            session.getId() -> 获取sessionID
+            session.isNew() -> 判断session是否是新的
+            session.getMaxInactiveInterval() -> session的非激活时间时长，默认1800秒
+            session.invalidate() -> 让会话立即失效
+            session.getLastAccessedTime() -> 获取最近一次访问时间
+    3. session保存作用域
+        - session保存作用域是和具体某一个session对应的
+        - 常用API：
+            void session.setAttribute(k, v)
+            Object session.getAttribute(k)
+            void session.removeAttribute(k)
+
+
 
 
 

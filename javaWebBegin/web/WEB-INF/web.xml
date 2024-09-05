@@ -33,4 +33,34 @@
         <servlet-name>Demo03Servlet</servlet-name>
         <url-pattern>/demo03</url-pattern>
     </servlet-mapping>
+
+    <!-- Demo05Servlet-->
+    <servlet>
+        <servlet-name>Demo05Servlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.Demo05Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Demo05Servlet</servlet-name>
+        <url-pattern>/demo05</url-pattern>
+    </servlet-mapping>
+
+    <!-- Demo05_1Servlet-->
+    <servlet>
+        <servlet-name>Demo05_1Servlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.Demo05_1Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Demo05_1Servlet</servlet-name>
+        <url-pattern>/demo05_1</url-pattern>
+    </servlet-mapping>
+
+    <!-- Demo05_2Servlet-->
+    <servlet>
+        <servlet-name>Demo05_2Servlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.Demo05_2Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Demo05_2Servlet</servlet-name>
+        <url-pattern>/demo05_2</url-pattern>
+    </servlet-mapping>
 </web-app>
