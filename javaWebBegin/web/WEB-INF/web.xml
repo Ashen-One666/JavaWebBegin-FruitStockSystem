@@ -12,7 +12,8 @@
      5. 找servlet-class -> com.atguigu.servlets.AddServlet
      6. 用户发送的是post请求, 因此容器tomcat会执行AddServlet中的doPost方法
      -->
-
+    
+    <!-- AddServlet-->
     <servlet>
         <servlet-name>AddServlet</servlet-name>
         <servlet-class>com.atguigu.servlets.AddServlet</servlet-class>
@@ -20,5 +21,16 @@
     <servlet-mapping>
         <servlet-name>AddServlet</servlet-name>
         <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <!-- Demo03Servlet-->
+    <servlet>
+        <servlet-name>Demo03Servlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.Demo03Servlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Demo03Servlet</servlet-name>
+        <url-pattern>/demo03</url-pattern>
     </servlet-mapping>
 </web-app>

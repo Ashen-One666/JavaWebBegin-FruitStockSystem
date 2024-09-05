@@ -8,14 +8,16 @@ import java.io.IOException;
 
 public class AddServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        // post模式下, 设置编码防止乱码 (get方式目前不需要设置编码)
+        request.setCharacterEncoding("UTF-8");
         String fname = request.getParameter("fname");
-        String priceStr = request.getParameter("fprice");
-        int price = Integer.parseInt(priceStr);
+        String fpriceStr = request.getParameter("fprice");
+        int fprice = Integer.parseInt(fpriceStr);
         String fcountStr = request.getParameter("fcount");
         int fcount = Integer.parseInt(fcountStr);
         String remark = request.getParameter("remark");
 
-        System.out.println(fname + " " + price + " " + fcount + " " + remark);
+        System.out.println(fname + " " + fprice + " " + fcount + " " + remark);
     }
 }
