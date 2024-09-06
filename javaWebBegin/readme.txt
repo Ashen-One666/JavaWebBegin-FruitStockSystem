@@ -79,6 +79,7 @@
             - 响应体：响应的实际内容 (比如请求add.html页面时，响应内容是<html><head><body><form...)
 
 // 200： 正常响应
+// 302： 重定向
 // 404： 找不到资源
 // 405： 请求方式不支持
 // 500： 服务器内部错误
@@ -108,6 +109,16 @@
             void session.setAttribute(k, v)
             Object session.getAttribute(k)
             void session.removeAttribute(k)
+
+六、服务器内部转发以及客户端重定向
+    1. 服务器内部转发：request.getRequestDispatcher("...").forward(request, response);
+        - 一次请求响应的过程，客户端不知道内部有多少次转发
+        - 地址栏无变化
+    2. 客户端重定向：response.sendRedirect("...");
+        - 两次请求响应的过程，客户端知道内部转发过程
+        - 地址栏有变化
+
+七、Thymeleaf - 视图模板技术
 
 
 

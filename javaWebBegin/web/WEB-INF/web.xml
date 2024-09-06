@@ -63,4 +63,24 @@
         <servlet-name>Demo05_2Servlet</servlet-name>
         <url-pattern>/demo05_2</url-pattern>
     </servlet-mapping>
+
+    <!-- Demo06_1Servlet-->
+    <servlet>
+        <servlet-name>Demo06_1Servlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.Demo06_1Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Demo06_1Servlet</servlet-name>
+        <url-pattern>/demo06_1</url-pattern>
+    </servlet-mapping>
+
+    <!-- Demo06_2Servlet-->
+    <servlet>
+        <servlet-name>Demo06_2Servlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.Demo06_2Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Demo06_2Servlet</servlet-name>
+        <url-pattern>/demo06_2</url-pattern>
+    </servlet-mapping>
 </web-app>

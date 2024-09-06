@@ -20,5 +20,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.93" level="application_server_libraries" />
+    <orderEntry type="library" exported="" name="mysql-connector-j-8.0.33" level="project" />
   </component>
 </module>

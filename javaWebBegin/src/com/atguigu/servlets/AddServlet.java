@@ -1,5 +1,9 @@
 package com.atguigu.servlets;
 
+import com.atguigu.fruit.dao.FruitDAO;
+import com.atguigu.fruit.dao.impl.FruitDAOImpl;
+import com.atguigu.fruit.pojo.Fruit;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +22,9 @@ public class AddServlet extends HttpServlet {
         int fcount = Integer.parseInt(fcountStr);
         String remark = request.getParameter("remark");
 
-        System.out.println(fname + " " + fprice + " " + fcount + " " + remark);
+        FruitDAO fruitDAO = new FruitDAOImpl();
+        fruitDAO.addFruit(new Fruit(0, fname, fprice, fcount, remark));
+        //System.out.println(fname + " " + fprice + " " + fcount + " " + remark);
+        //System.out.println("添加成功！");
     }
 }
