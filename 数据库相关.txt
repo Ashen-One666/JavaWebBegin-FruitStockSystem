@@ -1,4 +1,5 @@
 1. cmd启动mysql失败：
+    - 首先以管理员方式运行cmd
     - 命令：net start mysql
     - 失败原因：mysql默认端口3306被占用
     - 解决方法：
