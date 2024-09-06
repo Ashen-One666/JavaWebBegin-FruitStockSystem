@@ -20,6 +20,8 @@ public interface FruitDAO {
     //添加新库存记录
     void addFruit(Fruit fruit);
 
-    //查询库存总记录条数
+    //根据水果名查询该水果库存记录条数
     int getFruitCount(String keyword);
+
+    int getFruitCountSum();
 }

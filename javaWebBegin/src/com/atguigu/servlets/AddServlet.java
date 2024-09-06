@@ -23,7 +23,9 @@ public class AddServlet extends HttpServlet {
         String remark = request.getParameter("remark");
 
         FruitDAO fruitDAO = new FruitDAOImpl();
-        fruitDAO.addFruit(new Fruit(0, fname, fprice, fcount, remark));
+        int nowId = fruitDAO.getFruitCountSum();
+        fruitDAO.addFruit(new Fruit(100, fname, fprice, fcount, remark));
+        System.out.println(fruitDAO.getFruitCountSum());
         //System.out.println(fname + " " + fprice + " " + fcount + " " + remark);
         //System.out.println("添加成功！");
     }

@@ -5,6 +5,13 @@ import com.atguigu.fruit.pojo.Fruit;
 public class test {
     public static void main(String[] args) {
         FruitDAO fruitDAO = new FruitDAOImpl();
-        fruitDAO.addFruit(new Fruit(0, "苹果", 10, 5, "hello"));
+        //fruitDAO.addFruit(new Fruit(0, "苹果", 5, 5, "记录0"));
+        //fruitDAO.addFruit(new Fruit(1, "梨子", 10, 10, "记录1"));
+        //fruitDAO.addFruit(new Fruit(2, "香蕉", 20, 50, "记录2"));
+        //fruitDAO.delFruit(2);
+        int cnt = fruitDAO.getFruitCount("苹果");
+        int cntSum = fruitDAO.getFruitCountSum();
+        System.out.println("苹果记录条数：" + cnt);
+        System.out.println("总记录条数：" + cntSum);
     }
 }

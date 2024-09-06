@@ -1,0 +1,18 @@
+1. cmd启动mysql失败：
+    - 命令：net start mysql
+    - 失败原因：mysql默认端口3306被占用
+    - 解决方法：
+        - 查看3306端口的PID：netstat -ano | findstr :3306
+        - 结束当前进程：taskkill /PID /F (假设PID=1234，则 taskkill /1234 /F)
+        - 重新启动
+
+2. mysql本机登录密码(需修改dao.BaseDAO里的连接配置)：
+    - USER: root
+    - PWD: 4*****
+
+3. 需新建库并新建表才能使用java sql查询等
+
+4. 若想将web和sql结合，必须让tomcat导入sql的jar包
+    - 方法：在WEB-INF下新建 dictionary "lib"，然后把jar包复制到lib中
+
+

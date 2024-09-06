@@ -30,12 +30,17 @@ public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
 
     @Override
     public void addFruit(Fruit fruit) {
-        String sql = "insert into fruit_data values(0,?,?,?,?)";
-        super.executeUpdate(sql,fruit.getFname(),fruit.getPrice(),fruit.getFcount(),fruit.getRemark());
+        String sql = "insert into fruit_data values(?,?,?,?,?)";
+        super.executeUpdate(sql,fruit.getFid(),fruit.getFname(),fruit.getPrice(),fruit.getFcount(),fruit.getRemark());
     }
 
     @Override
     public int getFruitCount(String keyword ) {
         return ((Long)super.executeComplexQuery("select count(*) from fruit_data where fname like ? or remark like ?" , "%"+keyword+"%","%"+keyword+"%")[0]).intValue();
+    }
+
+    @Override
+    public int getFruitCountSum() {
+        return ((Long)super.executeComplexQuery("select count(*) from fruit_data")[0]).intValue();
     }
 }
