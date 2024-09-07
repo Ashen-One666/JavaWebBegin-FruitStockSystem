@@ -1,0 +1,70 @@
+/*@charset "UTF-8";*/
+body{
+    margin: 0;
+    padding: 0;
+}
+div{
+
+    position: relative;
+    float: left;
+}
+#div_container{
+    width: 80%;
+    height: 100%;
+    border: 1px solid blue;
+    margin-left: 10%;
+    float: left;
+    background-color: #afffe7;
+    border-radius: 8px;
+}
+#div_fruit_list{
+    width: 100%;
+    border: 0px solid red;
+}
+#tbl_fruit{
+    border: 1px solid gray;
+    width: 60%;
+    line-height: 28px;
+    margin-top: 16px;
+    margin-left: 20%;
+}
+#tbl_fruit, #tbl_fruit tr, #tbl_fruit th, #tbl_fruit td{
+    border: 1px solid gray;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 16px;
+    font-family: "微软雅黑", serif;
+    font-weight: lighter;
+    color: indigo;
+}
+#tbl_fruit th{
+    font-size: 18px;
+    font-family: "黑体", serif;
+}
+.deleteImg{
+    width: 24px;
+}
+
+.w30{
+    width: 30%;
+}
+.input{
+    border: 1px solid lightgray;
+    width: 90%;
+    padding-left: 4px; /*光标距离输入框最左侧4px*/
+}
+.btn{
+    border: 1px solid lightgray;
+    width: 80px;
+    height: 24px;
+    border-radius: 8px;
+}
+
+.center{
+    text-align: center;
+}
+
+.f30{
+    font-size: 30px;
+}
+

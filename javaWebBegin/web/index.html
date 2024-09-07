@@ -21,11 +21,15 @@
         <tr th:if="${#lists.isEmpty(session.fruitList)}">
           <td colspan="4">对不起，库存为空！</td>
         </tr>
-        <!-- 注： thymeleaf中 unless(xxx) 相当于 if(! xxx) -->
-        <!-- 注： each="fruit : ${session.fruitList}" 表示遍历fruitList -->
-        <!-- 注： text="${fruit.fname}" 设置text内容为fruit.fname -->
+        <!--
+        - thymeleaf中 unless(xxx) 相当于 if(! xxx)
+        - each="fruit : ${session.fruitList}" 表示遍历fruitList
+        - text="${fruit.fname}" 覆盖原text内容为fruit.fname
+        - text="@{/edit.do}" 指绝对路径，从根目录开始，实际为http://localhost8080/edit.do (edit.do前要加/才是绝对路径)
+        - 超链接跳转: th:href=" /资源 ( keyName1 = ${value1},  keyName2 = ${value2} ... )  “
+         -->
         <tr th:unless="${#lists.isEmpty(session.fruitList)}" th:each="fruit : ${session.fruitList}">
-          <td th:text="${fruit.fname}">苹果</td>
+          <td><a th:text="${fruit.fname}" th:href="@{/edit.do(fid=${fruit.fid})}">苹果</a></td>
           <td th:text="${fruit.price}">5</td>
           <td th:text="${fruit.fcount}">20</td>
           <td><img src="img/deleteImg.jpg" class="deleteImg"></td>

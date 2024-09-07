@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fruit Stock</title>
+  <link rel="stylesheet" href="css/edit.css">
+</head>
+<body>
+<div id="div_container">
+  <div id="div_fruit_list">
+    <p class="center f30">编辑库存信息</p>
+    <form th:action="@{/update.do}" method="post">
+      <!-- th:object="${fruit}" 表示该table内部使用的所有属性都来自于fruit
+           这样在该table中调用fruit属性时可以省略fruit. (th:value="${fruit.fname} -> th:value="*{fname})  -->
+      <table id="tbl_fruit" th:object="${fruit}">
+
+        <!-- 隐藏域：功能类似于文本框，表单发送时它的值会随表单发送发到服务器(Servlet可获取)，但用户在界面上看不到 -->
+        <input type="hidden" name="fid" th:value="*{fid}"/>
+        <tr>
+          <th>名称：</th>
+          <!-- 本servlet是作用在request作用域，EditServlet的request作用域中保存的key值是fruit
+               如果是session作用域，修改为 th:value="session.fruit.fname"， application作用域同理改为application.XXX-->
+          <!-- <td><input type="text" name="fname" th:value="${fruit.fname}"/></td> -->
+          <td><input type="text" name="fname" th:value="*{fname}"/></td>
+        </tr>
+        <tr>
+          <th>单价：</th>
+          <td><input type="text" name="price" th:value="*{price}"/></td>
+        </tr>
+        <tr>
+          <th>库存：</th>
+          <td><input type="text" name="fcount" th:value="*{fcount}"/></td>
+        </tr>
+        <tr>
+          <th>备注：</th>
+          <td><input type="text" name="remark" th:value="*{remark}"/></td>
+        </tr>
+        <tr>
+          <th colspan="2"><input type="submit" value="修改"/></th>
+        </tr>
+
+      </table>
+    </form>
+  </div>
+</div>
+</body>
+</html>
