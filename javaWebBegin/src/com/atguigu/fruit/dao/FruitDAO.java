@@ -8,6 +8,8 @@ public interface FruitDAO {
     //获取指定页码上的库存列表信息 , 每页显示5条
     List<Fruit> getFruitList(String keyword , Integer pageNo);
 
+    List<Fruit> getFruitList();
+
     //根据fid获取特定的水果库存信息
     Fruit getFruitByFid(Integer fid);
 

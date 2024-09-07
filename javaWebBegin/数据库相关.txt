@@ -14,6 +14,8 @@
 3. 需新建库并新建表才能使用java sql查询等
 
 4. 若想将web和sql结合，必须让tomcat导入sql的jar包
-    - 方法：在WEB-INF下新建 dictionary "lib"，然后把jar包复制到lib中
+    - 方法1：在WEB-INF下新建 dictionary "lib" -> jar包复制到lib中
+    - 方法2：在整个项目下创建 dictionary "lib" -> 右键"lib" add as library
+            -> Project Structure在Module中添加该依赖 -> Artifacts中删除当前的，新建一个
 
 

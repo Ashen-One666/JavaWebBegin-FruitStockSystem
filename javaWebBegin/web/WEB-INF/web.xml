@@ -9,24 +9,24 @@
      2. 服务器(当前项目)中, web.xml找到 url-pattern = /add
      3. 找servlet-name -> AddServlet
      4. 找servlet-mapping中与servlet-name一致的servlet
-     5. 找servlet-class -> com.atguigu.servlets.AddServlet
+     5. 找servlet-class -> com.atguigu.servlets.testServlet.AddServlet
      6. 用户发送的是post请求, 因此容器tomcat会执行AddServlet中的doPost方法
      -->
     
-    <!-- AddServlet-->
+    <!-- AddServlet -->
     <servlet>
         <servlet-name>AddServlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.AddServlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.AddServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddServlet</servlet-name>
         <url-pattern>/add</url-pattern>
     </servlet-mapping>
 
-    <!-- Demo03Servlet-->
+    <!-- Demo03Servlet -->
     <servlet>
         <servlet-name>Demo03Servlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.Demo03Servlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.Demo03Servlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -34,53 +34,65 @@
         <url-pattern>/demo03</url-pattern>
     </servlet-mapping>
 
-    <!-- Demo05Servlet-->
+    <!-- Demo05Servlet -->
     <servlet>
         <servlet-name>Demo05Servlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.Demo05Servlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.Demo05Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo05Servlet</servlet-name>
         <url-pattern>/demo05</url-pattern>
     </servlet-mapping>
 
-    <!-- Demo05_1Servlet-->
+    <!-- Demo05_1Servlet -->
     <servlet>
         <servlet-name>Demo05_1Servlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.Demo05_1Servlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.Demo05_1Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo05_1Servlet</servlet-name>
         <url-pattern>/demo05_1</url-pattern>
     </servlet-mapping>
 
-    <!-- Demo05_2Servlet-->
+    <!-- Demo05_2Servlet -->
     <servlet>
         <servlet-name>Demo05_2Servlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.Demo05_2Servlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.Demo05_2Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo05_2Servlet</servlet-name>
         <url-pattern>/demo05_2</url-pattern>
     </servlet-mapping>
 
-    <!-- Demo06_1Servlet-->
+    <!-- Demo06_1Servlet -->
     <servlet>
         <servlet-name>Demo06_1Servlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.Demo06_1Servlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.Demo06_1Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo06_1Servlet</servlet-name>
         <url-pattern>/demo06_1</url-pattern>
     </servlet-mapping>
 
-    <!-- Demo06_2Servlet-->
+    <!-- Demo06_2Servlet -->
     <servlet>
         <servlet-name>Demo06_2Servlet</servlet-name>
-        <servlet-class>com.atguigu.servlets.Demo06_2Servlet</servlet-class>
+        <servlet-class>com.atguigu.servlets.testServlet.Demo06_2Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo06_2Servlet</servlet-name>
         <url-pattern>/demo06_2</url-pattern>
     </servlet-mapping>
+
+    <!-- Thymeleaf配置 -->
+    <!-- context-param: 配置上下文参数 -->
+    <context-param>
+        <param-name>view-prefix</param-name>
+        <!-- / 代表web根目录 -->
+        <param-value>/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view-suffix</param-name>
+        <param-value>.html</param-value>
+    </context-param>
 </web-app>

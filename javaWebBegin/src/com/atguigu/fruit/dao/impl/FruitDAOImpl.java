@@ -2,7 +2,7 @@ package com.atguigu.fruit.dao.impl;
 
 import com.atguigu.fruit.dao.FruitDAO;
 import com.atguigu.fruit.pojo.Fruit;
-import com.atguigu.fruit.dao.base.BaseDAO;
+import com.atguigu.myssm.basedao.BaseDAO;
 
 import java.util.List;
 
@@ -10,6 +10,11 @@ public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
     @Override
     public List<Fruit> getFruitList(String keyword , Integer pageNo) {
         return super.executeQuery("select * from fruit_data where fname like ? or remark like ? limit ? , 5" ,"%"+keyword+"%","%"+keyword+"%", (pageNo-1)*5);
+    }
+
+    @Override
+    public List<Fruit> getFruitList(){
+        return super.executeQuery("select * from fruit_data");
     }
 
     @Override

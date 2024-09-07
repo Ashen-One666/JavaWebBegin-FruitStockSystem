@@ -1,4 +1,4 @@
-package com.atguigu.servlets;
+package com.atguigu.servlets.testServlet;
 
 import com.atguigu.fruit.dao.FruitDAO;
 import com.atguigu.fruit.dao.impl.FruitDAOImpl;
@@ -24,7 +24,7 @@ public class AddServlet extends HttpServlet {
 
         FruitDAO fruitDAO = new FruitDAOImpl();
         int nowId = fruitDAO.getFruitCountSum();
-        fruitDAO.addFruit(new Fruit(100, fname, fprice, fcount, remark));
+        fruitDAO.addFruit(new Fruit(nowId, fname, fprice, fcount, remark));
         System.out.println(fruitDAO.getFruitCountSum());
         //System.out.println(fname + " " + fprice + " " + fcount + " " + remark);
         //System.out.println("添加成功！");

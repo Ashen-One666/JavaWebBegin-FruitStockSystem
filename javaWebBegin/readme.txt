@@ -119,6 +119,29 @@
         - 地址栏有变化
 
 七、Thymeleaf - 视图模板技术
+    1. 添加thymeleaf的jar包 (参考"数据库相关.txt")
+    2. 新建一个Servlet类ViewBaseServlet
+    3. 在web.xml中添加配置
+        - 配置前缀：view-prefix
+        - 配置后缀：view-suffix
+    4. 使得我们的Servlet继承ViewBaseServlet
+    5. 根据逻辑视图名称得到物理视图名称
+        - Servlet调用函数： super.processTemplate("index", request, response);
+        - "index": 视图名称
+        - 那么thymeleaf会将这个 逻辑视图名称 对应到 物理视图名称 上去
+        - 逻辑视图名称: index
+        - 物理视图名称:       view-prefix + 逻辑视图名称 + view-suffix
+        - 因此真实的视图名称是:       /         index         .html
+        - 在web.xml设置prefix和suffix名称的意义就是将真实的视图名称与web根目录下的index.html对应上
+        - 最后运行/index，会跳转到index.html上 (相当于thymeleaf帮我们做了服务器内部转发)
+    6. 总体运作流程：
+        客户端请求 /index -> indexServlet收到，执行doGet()，跳转到FruitDAOImpl -> FruitDAOImpl转到BaseDAO
+        -> BaseDAO连接数据库，发送查询语句 -> 数据库返回数据给BaseDAO -> BaseDAO返回数据给FruitDAOImpl
+        -> FruitDAOImpl向indexServlet返回数据(List<Fruit> fruitList = fruitDAO.getFruitList())，同时让
+        indexServlet把数据加到会话保存域(session.setAttribute("fruitList,fruitList"))，最后调用thymeleaf的函数
+        super.processTemplate("index", request, response)，将这份数据渲染到页面index.html上
+    7. 使用thymeleaf标签
+        - th:if , th:unless, th:each, th:text
 
 
 

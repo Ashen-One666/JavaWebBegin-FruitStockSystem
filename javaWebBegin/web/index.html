@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fruit Stock</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <div id="div_container">
+    <div id="div_fruit_list">
+      <p class="center f30">欢迎使用水果库存后台管理系统</p>
+      <table id="tbl_fruit">
+        <tr>
+          <th>名称</th>
+          <th>单价</th>
+          <th>库存</th>
+          <th>操作</th>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(session.fruitList)}">
+          <td colspan="4">对不起，库存为空！</td>
+        </tr>
+        <!-- 注： thymeleaf中 unless(xxx) 相当于 if(! xxx) -->
+        <!-- 注： each="fruit : ${session.fruitList}" 表示遍历fruitList -->
+        <!-- 注： text="${fruit.fname}" 设置text内容为fruit.fname -->
+        <tr th:unless="${#lists.isEmpty(session.fruitList)}" th:each="fruit : ${session.fruitList}">
+          <td th:text="${fruit.fname}">苹果</td>
+          <td th:text="${fruit.price}">5</td>
+          <td th:text="${fruit.fcount}">20</td>
+          <td><img src="img/deleteImg.jpg" class="deleteImg"></td>
+        </tr>
+
+      </table>
+    </div>
+  </div>
+</body>
+</html>
