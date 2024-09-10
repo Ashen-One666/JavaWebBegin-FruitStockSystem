@@ -78,11 +78,12 @@
             - 响应头：包含服务器的信息，服务器发给浏览器的信息(内容的媒体类型、编码、内容长度等)
             - 响应体：响应的实际内容 (比如请求add.html页面时，响应内容是<html><head><body><form...)
 
-// 200： 正常响应
-// 302： 重定向
-// 404： 找不到资源
-// 405： 请求方式不支持
-// 500： 服务器内部错误
+    4. Http响应码
+        - 200： 正常响应
+        - 302： 重定向
+        - 404： 找不到资源
+        - 405： 请求方式不支持
+        - 500： 服务器内部错误
 
 五、会话
     1. Http是无状态的
@@ -142,7 +143,14 @@
         super.processTemplate("index", request, response)，将这份数据渲染到页面index.html上
     7. 使用thymeleaf标签
         - th:if , th:unless, th:each, th:text
+        - 注意，如果当前页面没有结果thymeleaf渲染，则 th: 标签不会生效
+          例如，edit.html是经过 super.processTemplate("edit", request, response) 跳转到的，因此在edit.html中可以使用th标签
 
+
+新建项目配置步骤：
+    1. Project Structure -> Module -> dependencies -> add library
+    2. Project Structure -> Artifact -> add -> web application: explored
+    2. Edit Configurations -> add Tomcat server: local -> 配置server和deployment
 
 
 

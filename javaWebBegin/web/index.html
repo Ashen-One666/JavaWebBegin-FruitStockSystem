@@ -5,17 +5,28 @@
   <meta charset="UTF-8">
   <title>Fruit Stock</title>
   <link rel="stylesheet" href="css/index.css">
+  <script language="JavaScript" src="js/index.js"></script>
 </head>
 <body>
   <div id="div_container">
     <div id="div_fruit_list">
       <p class="center f30">欢迎使用水果库存后台管理系统</p>
+      <div id="div_search">
+        <!-- 查询操作以及返回的页面形式与index相似，因此action可以也直接写为index，然后在IndexServlet中多写一个doPost来处理 -->
+        <form th:action="@{/fruit.do}" method="post" class="left">
+          <!-- 设置隐藏域，在submit时将该域的operation一并发到servlet以区分是index还是search -->
+          <input type="hidden" name="operation" value="search">
+          请输入查询关键字：<input type="text" name="keyword" th:value="${session.keyword}">
+          <input type="submit" value="查询" class="btn">
+        </form>
+        <a th:href="@{/add.html}" class="right">添加新库存记录</a>
+      </div>
       <table id="tbl_fruit">
         <tr>
-          <th>名称</th>
-          <th>单价</th>
-          <th>库存</th>
-          <th>操作</th>
+          <th class="w20">名称</th>
+          <th class="w20">单价</th>
+          <th class="w20">库存</th>
+          <th class="w20">操作</th>
         </tr>
 
         <tr th:if="${#lists.isEmpty(session.fruitList)}">
@@ -29,13 +40,20 @@
         - 超链接跳转: th:href=" /资源 ( keyName1 = ${value1},  keyName2 = ${value2} ... )  “
          -->
         <tr th:unless="${#lists.isEmpty(session.fruitList)}" th:each="fruit : ${session.fruitList}">
-          <td><a th:text="${fruit.fname}" th:href="@{/edit.do(fid=${fruit.fid})}">苹果</a></td>
+          <td><a th:text="${fruit.fname}" th:href="@{/fruit.do(fid=${fruit.fid},operate='edit')}">苹果</a></td>
           <td th:text="${fruit.price}">5</td>
           <td th:text="${fruit.fcount}">20</td>
-          <td><img src="img/deleteImg.jpg" class="deleteImg"></td>
+          <td><img src="img/deleteImg.jpg" class="deleteImg" th:onclick="|delFruit(${fruit.fid})|"></td>
         </tr>
-
       </table>
+      <div id="div_pageBtn">
+        <!-- button通过js进行跳转，js函数page()设置跳转地址href，并将参数pageNo附在地址后 -->
+        <input type="button" value="首  页" class="btn" th:onclick="|page(1)|" th:disabled="${session.pageNo==1}">
+        <input type="button" value="上一页" class="btn" th:onclick="|page(${session.pageNo-1})|" th:disabled="${session.pageNo==1}">
+        <input type="button" value="下一页" class="btn" th:onclick="|page(${session.pageNo+1})|" th:disabled="${session.pageNo==session.pageCount}">
+        <input type="button" value="尾  页" class="btn" th:onclick="|page(${session.pageCount})|" th:disabled="${session.pageNo==session.pageCount}">
+      </div>
+
     </div>
   </div>
 </body>

@@ -1,4 +1,4 @@
-package com.atguigu.servlets;
+package com.atguigu.servlets.oldServlets;
 
 import com.atguigu.fruit.dao.FruitDAO;
 import com.atguigu.fruit.dao.impl.FruitDAOImpl;

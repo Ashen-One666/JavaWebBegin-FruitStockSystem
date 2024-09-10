@@ -10,9 +10,10 @@ public class test {
         //fruitDAO.addFruit(new Fruit(2, "香蕉", 20, 50, "记录2"));
         //fruitDAO.delFruit(100);
         //int cnt = fruitDAO.getFruitCount("苹果");
-        int cntSum = fruitDAO.getFruitCountSum();
+
         //System.out.println("苹果记录条数：" + cnt);
-        //fruitDAO.addFruit(new Fruit(3, "西瓜", 5, 50, "我是西瓜"));
+        fruitDAO.addFruit(new Fruit(0, "西瓜", 5, 10, "我是西瓜"));
+        int cntSum = fruitDAO.getFruitCount();
         System.out.println("总记录条数：" + cntSum);
     }
 }

@@ -5,9 +5,13 @@ import com.atguigu.fruit.pojo.Fruit;
 import java.util.List;
 
 public interface FruitDAO {
-    //获取指定页码上的库存列表信息 , 每页显示5条
+    //获取指定页码上的指定名字(或remark)库存列表信息 , 每页显示5条
     List<Fruit> getFruitList(String keyword , Integer pageNo);
 
+    //获取指定页码上的所有库存列表信息 , 每页显示5条
+    public List<Fruit> getFruitList(Integer pageNo);
+
+    //获取所所有库存列表信息
     List<Fruit> getFruitList();
 
     //根据fid获取特定的水果库存信息
@@ -25,5 +29,7 @@ public interface FruitDAO {
     //根据水果名查询该水果库存记录条数
     int getFruitCount(String keyword);
 
-    int getFruitCountSum();
+    //查询水果总库存记录条数
+    int getFruitCount();
+
 }

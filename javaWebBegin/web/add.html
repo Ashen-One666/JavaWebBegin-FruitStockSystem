@@ -1,20 +1,50 @@
 <!DOCTYPE html>
+
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
     <meta charset="UTF-8">
-    <title>mainHtml</title>
+    <title>Fruit Stock</title>
+    <link rel="stylesheet" href="css/add.css">
 </head>
 <body>
-    <form action="add" method="post">
-        <label for="fname">名称: </label>
-        <input id="fname" type="text" name="fname"/><br>
-        <label for="fprice">价格: </label>
-        <input id="fprice" type="text" name="fprice"/><br>
-        <label for="fcount">库存: </label>
-        <input id="fcount" type="text" name="fcount"/><br>
-        <label for="remark">备注: </label>
-        <input id="remark" type="text" name="remark"/><br>
-        <input type="submit" value="添加">
-    </form>
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">添加库存信息</p>
+        <!-- 注：add.html并未经过thymeleaf渲染，因此不能用th: -->
+        <!-- <form th:action="@{/fruit.do}" method="post"> -->
+        <form action="/fruit.do" method="post">
+            <!-- 通过隐藏域向FruitServlet发送operate参数(此参数放在request的parameter中) -->
+            <input type="hidden" name="operate" value="add">
+            <!-- th:object="${fruit}" 表示该table内部使用的所有属性都来自于fruit
+                 这样在该table中调用fruit属性时可以省略fruit. (th:value="${fruit.fname} -> th:value="*{fname})  -->
+            <table id="tbl_fruit">
+                <tr>
+                    <th>名称：</th>
+                    <!-- 本servlet是作用在request作用域，EditServlet的request作用域中保存的key值是fruit
+                         如果是session作用域，修改为 th:value="session.fruit.fname"， application作用域同理改为application.XXX-->
+                    <!-- <td><input type="text" name="fname" th:value="${fruit.fname}"/></td> -->
+                    <td><input type="text" name="fname"/></td>
+                </tr>
+                <tr>
+                    <th>单价：</th>
+                    <td><input type="text" name="price"/></td>
+                </tr>
+                <tr>
+                    <th>库存：</th>
+                    <td><input type="text" name="fcount"/></td>
+                </tr>
+                <tr>
+                    <th>备注：</th>
+                    <td><input type="text" name="remark"/></td>
+                </tr>
+                <tr>
+                    <th colspan="2"><input type="submit" value="添加"/></th>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+</div>
 </body>
 </html>
