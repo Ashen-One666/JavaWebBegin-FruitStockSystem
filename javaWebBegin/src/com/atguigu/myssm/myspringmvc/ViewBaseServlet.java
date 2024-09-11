@@ -12,14 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+// 视图解析
 public class ViewBaseServlet extends HttpServlet {
 
     private TemplateEngine templateEngine;
 
-    @Override
+    //@Override
     public void init() throws ServletException {
 
+        // servletContext相当于application
         // 1.获取ServletContext对象
         ServletContext servletContext = this.getServletContext();
 

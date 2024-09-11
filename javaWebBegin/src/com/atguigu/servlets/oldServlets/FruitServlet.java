@@ -1,4 +1,4 @@
-package com.atguigu.servlets;
+package com.atguigu.servlets.oldServlets;
 
 import com.atguigu.fruit.dao.FruitDAO;
 import com.atguigu.fruit.dao.impl.FruitDAOImpl;
@@ -12,16 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
-@WebServlet("/fruit.do")
+//@WebServlet("/fruit.do")
 public class FruitServlet extends ViewBaseServlet {
 
     FruitDAO fruitDAO = new FruitDAOImpl();
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
+
 
         request.getParameter("operate");
         String operate = request.getParameter("operate");
@@ -29,6 +31,28 @@ public class FruitServlet extends ViewBaseServlet {
         if(StringUtil.isEmpty(operate)){
             operate = "index";
         }
+
+        // 通过反射技术优化代码，这样就不需要写多个switch分支对operate进行判断
+        // 获取当前类中所有方法
+        Method[] methods = this.getClass().getDeclaredMethods();
+        for(Method method : methods){
+            // 获取方法名称
+            String methodName = method.getName();
+            if(operate.equals(methodName)){
+                try {
+                    // 找到和operate同名的方法，那么通过反射技术调用它
+                    method.invoke(this, request, response);
+                    return;
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        // 如果operate的值都不符合就抛出异常
+        throw new RuntimeException("operate值非法！");
+
+        // 通过反射优化掉switch
+        /*
         switch (operate){
             case "index":
                 index(request, response);
@@ -48,8 +72,8 @@ public class FruitServlet extends ViewBaseServlet {
             default:
                 throw new RuntimeException("operate值非法！");
         }
+        */
     }
-
 
     // index和查询关键字都使用doGet内的逻辑
     private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

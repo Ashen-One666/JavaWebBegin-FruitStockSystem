@@ -93,7 +93,7 @@ public class TestReflect {
             System.out.print("(");
             // 获取所有参数
             Class[] prams=methods[i].getParameterTypes();
-            for (int j = 0; j <prams.length ; j++) {
+            for (int j = 0; j < prams.length ; j++) {
                 String pramName=prams[j].getSimpleName();
                 System.out.print(pramName+" args"+j);
                 if(j <prams.length-1){
