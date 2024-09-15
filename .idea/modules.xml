@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Learning_JAVA.iml" filepath="$PROJECT_DIR$/Learning_JAVA.iml" />
-      <module fileurl="file://$PROJECT_DIR$/javaWebBegin/javaWebBegin.iml" filepath="$PROJECT_DIR$/javaWebBegin/javaWebBegin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FruitStockSystem/FruitStockSystem.iml" filepath="$PROJECT_DIR$/FruitStockSystem/FruitStockSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javaWebBegin-FruitStockSystem.iml" filepath="$PROJECT_DIR$/javaWebBegin-FruitStockSystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
     </modules>
   </component>

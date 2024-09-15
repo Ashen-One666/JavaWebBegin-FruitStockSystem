@@ -110,6 +110,15 @@
             void session.setAttribute(k, v)
             Object session.getAttribute(k)
             void session.removeAttribute(k)
+        - 原始情况下，保存作用域有4个：page(页面级别，现在不用), request(一次请求响应范围),
+          session(一次会话范围),application(整个应用程序范围)
+              - request：一次请求响应范围
+              - session：一次会话范围有效
+              - application：一次应用程序范围有效
+              // 注： 组件指代Servlet实例
+        - 路径问题
+            - 相对路径
+            - 绝对路径(尽量使用绝对路径)
 
 六、服务器内部转发以及客户端重定向
     1. 服务器内部转发：request.getRequestDispatcher("...").forward(request, response);

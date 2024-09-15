@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class DispatcherServlet extends ViewBaseServlet{
     // 使用中央控制器DispatcherServlet的好处是不需要在每个controller中都写反射的代码，而是把这部分代码统一抽取到这里
 
     // 把xml配置文件bean标签所有实例对象全部加载，保存在Map对象中
-    private Map<String, Object> beaneMap = new HashMap<>();
+    private Map<String, Object> beanMap = new HashMap<>();
 
     // 在Servlet初始化函数中，解析xml配置文件
     public DispatcherServlet() {
@@ -76,7 +77,7 @@ public class DispatcherServlet extends ViewBaseServlet{
                     Object beanObj = controllerBeanClass.newInstance();
 
                     // 通过Map来实现对应关系
-                    beaneMap.put(beanId, beanObj);
+                    beanMap.put(beanId, beanObj);
                 }
             }
 
@@ -111,16 +112,13 @@ public class DispatcherServlet extends ViewBaseServlet{
         *   第二步： fruit -> fruitController (将fruit和fruitController对应上，如何对应 见上面的实例化方法)
         * */
         String servletPath = request.getServletPath();
-        //System.out.println(servletPath);
         servletPath = servletPath.substring(1); // 去掉/
         int lastDotIndex = servletPath.lastIndexOf(".do");
         servletPath = servletPath.substring(0, lastDotIndex); // 去掉.do
-        //System.out.println("servletPath = " + servletPath);
 
-        Object controllerBeanObj = beaneMap.get(servletPath);
+        // 中央控制器初始化方法init()中已经通过DOM技术将对应关系存储在beanMap容器中了，这里直接根据请求fruit获取到FruitController
+        Object controllerBeanObj = beanMap.get(servletPath);
 
-
-        request.getParameter("operate");
         String operate = request.getParameter("operate");
         // 初始化默认是index
         if(StringUtil.isEmpty(operate)){
@@ -132,63 +130,83 @@ public class DispatcherServlet extends ViewBaseServlet{
         try {
             // 获取到/*.do中*对应的控制器，并根据operate调用该控制器中的方法(反射实现)
             // 如请求是/fruit.do，则bean标签的id=fruit，中央控制器就会去调用该id对应的class(FruitController)中的方法
-            Method method = controllerBeanObj.getClass().getDeclaredMethod(operate, HttpServletRequest.class);
-            if(method != null){
+            Method[] methods = controllerBeanObj.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if(operate.equals(method.getName())){
+                    // 1. 统一获取请求参数
+                    // 获取当前方法的参数，返回参数数组
+                    // 注：java8的新特性，在编译class文件时可以带上函数中的参数名称，设置后就可以method.getParameters()直接获取到参数名了
+                    // 设置方法：settings -> java compiler -> additional command line parameters -> 写上 -parameters
+                    Parameter[] parameters = method.getParameters();
+                    Object[] parameterValues = new Object[parameters.length]; // 存放参数值
+                    for (int i = 0; i < parameters.length; i++) {
+                        Parameter parameter = parameters[i];
+                        String parameterName = parameter.getName();
+                        // 如果参数名是request, response, session，那么就不是通过请求中获取参数的方式了
+                        if("request".equals(parameterName)){
+                            parameterValues[i] = request;
+                        }
+                        else if("response".equals(parameterName)){
+                            parameterValues[i] = response;
+                        }
+                        else if("session".equals(parameterName)){
+                            parameterValues[i] = request.getSession();
+                        }
+                        else{
+                            // 注：接收复选框(parameter同名但有多个值)的参数使用函数request.getParameterValue，会得到一个数组，本代码中不考虑这个
+                            // 从请求中获取参数值
+                            String parameterValue = request.getParameter(parameterName);
+                            // 常见错误： IllegalArgumentException: argument type mismatch
+                            // 即 如果直接赋值parameterValues[i] = parameterValue，那么当pageNo=2时，传进来的是 "2" 而不是 2
+                            // 直接从request中拿到的参数类型都是String，因此需要根据controller中方法里参数类型进行转换
+                            Object parameterObj = parameterValue;
+                            String typeName = parameter.getType().getName();
+                            if(parameterObj != null){
+                                // 本项目除了String外中只用到了Integer类型的参数，如果有其他类型参数，需要把判断补全
+                                if("java.lang.Integer".equals(typeName)){
+                                    parameterObj = Integer.parseInt(parameterValue);
+                                }
+                            }
+                            parameterValues[i] = parameterObj;
 
-                // 2. Controller组件中的方法调用
-                // controller中每个operate的方法都是private的，需要暴力反射
-                method.setAccessible(true);
-                // 调用Controller中的方法(根据operate获取的method)
-                Object methodReturnObj = method.invoke(controllerBeanObj, request);
+                        }
+                    }
 
-                // 3. 视图处理
-                String methodReturnStr = methodReturnObj.toString();
-                // 如果Controller跳转是进行重定向
-                if(methodReturnStr.startsWith("redirect:")){ // 比如: redirect:fruit.do
-                    String redirectStr = methodReturnStr.substring("redirect:".length());
-                    response.sendRedirect(redirectStr);
+                    // 2. Controller组件中的方法调用
+                    // controller中每个operate的方法都是private的，需要暴力反射
+                    method.setAccessible(true);
+                    // 调用Controller中的方法(根据operate获取的method),并获取返回值用来做视图处理(请求转发重定向等)
+                    Object methodReturnObj = method.invoke(controllerBeanObj, parameterValues);
+
+                    // 3. 视图处理
+                    String methodReturnStr = methodReturnObj.toString();
+                    // 如果Controller跳转是进行重定向
+                    if(methodReturnStr.startsWith("redirect:")){ // 比如: redirect:fruit.do
+                        String redirectStr = methodReturnStr.substring("redirect:".length());
+                        response.sendRedirect(redirectStr);
+                    }
+                    // 如果Controller跳转是进行thymeleaf渲染
+                    else{ // 比如: "edit"
+                        super.processTemplate(methodReturnStr, request, response);
+                    }
                 }
-                // 如果Controller跳转是进行thymeleaf渲染
-                else{ // 比如: "edit"
-                    super.processTemplate(methodReturnStr, request, response);
-                }
-
             }
+
+            /*
             else{
                 throw new RuntimeException("operate值非法！");
-            }
-        } catch (NoSuchMethodException e) {
+            }*/
+        } /*catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
+        }*/ catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
-        /*
-        // 使用 getDeclaredMethods 获取所有方法，再通过for循环匹配当前方法名是否是operate
-        // for循环的方式写起来相较于上面的写法较为繁琐，因此不用
-        // 获取当前类中所有方法
-        Method[] methods = controllerBeanObj.getClass().getDeclaredMethods();
-        for(Method method : methods){
-            // 获取方法名称
-            String methodName = method.getName();
-            if(operate.equals(methodName)){
-                try {
-                    // 找到和operate同名的方法，那么通过反射技术调用它
-                    method.invoke(this, request, response);
-                    return;
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        // 如果operate的值都不符合就抛出异常
-        throw new RuntimeException("operate值非法！");
-        */
-
     }
 
-
-
 }
+
+// 常见错误： IllegalArgumentException: argument type mismatch
+//

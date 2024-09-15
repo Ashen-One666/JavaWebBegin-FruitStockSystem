@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="lib_thymeleaf">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/javaWebBegin/lib_thymeleaf" />
+      <root url="file://$PROJECT_DIR$/FruitStockSystem/lib_thymeleaf" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$PROJECT_DIR$/javaWebBegin/lib_thymeleaf" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/FruitStockSystem/lib_thymeleaf" recursive="false" />
   </library>
 </component>
