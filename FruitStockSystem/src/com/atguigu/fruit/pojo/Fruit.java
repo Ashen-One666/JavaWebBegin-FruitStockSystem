@@ -1,5 +1,6 @@
 package com.atguigu.fruit.pojo;
 
+// pojo: plain ordinary java object 是简单java对象，实际是普通javaBeans，为了避免和EJB混淆创造的简称
 public class Fruit {
     private Integer fid ;
     private String fname ;

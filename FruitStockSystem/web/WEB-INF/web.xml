@@ -84,6 +84,30 @@
         <url-pattern>/demo06_2</url-pattern>
     </servlet-mapping>
 
+    <!-- InitServlet -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>InitServlet</servlet-name>
+        <servlet-class>com.atguigu.servlets.testServlet.InitServlet</servlet-class>
+        <init-param>
+            <param-name>hello</param-name>
+            <param-value>world</param-value>
+        </init-param>
+        <init-param>
+            <param-name>uname</param-name>
+            <param-value>Jack</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitServlet</servlet-name>
+        <url-pattern>/init</url-pattern>
+    </servlet-mapping>
+
+
     <!-- Thymeleaf配置 -->
     <!-- context-param: 配置上下文参数 -->
     <context-param>

@@ -155,6 +155,74 @@
         - 注意，如果当前页面没有结果thymeleaf渲染，则 th: 标签不会生效
           例如，edit.html是经过 super.processTemplate("edit", request, response) 跳转到的，因此在edit.html中可以使用th标签
 
+八、Servlet初始化方法
+    (示例代码: InitServlet)
+    1. Servlet生命周期：实例化、初始化、服务、销毁
+    2. Servlet中的初始化方法有两个： init(), init(config)
+       带参方法：
+           public void init(ServletConfig config) throws ServletException {
+                this.config = config;
+                init();
+           }
+       无参方法：
+           public void init() throws ServletException {
+            }
+       如果想要在Servlet初始化时做准备工作，就可以重写init()
+       通过如下步骤获取初始化设置的数据：
+           - 获取config对象： ServletConfig config = getServletConfig();
+           - 获取初始化参数值： config.getInitParameter(key);
+    3. 在web.xml中配置Servlet，也可以通过注解方式进行配置
+        配置文件方式：
+            见web.xml文件中 <!-- InitServlet --> 部分
+        注解方式：
+            @WebServlet(urlPatterns = {"/init"},
+                        initParams = {
+                            @WebInitParam(name = "hello", value = "world"),
+                            @WebInitParam(name = "uname", value = "Jack")
+                        }
+            )
+
+九、Servlet中ServletContext和<context-param>
+    1. 获取ServletContext方法：
+        在初始化方法中： ServletContext servletContext = getServletContext();
+        在服务方法中:
+            通过request对象获取： request.getServletContext();
+            通过session获取： request.getSession().getServletContext();
+    2. 获取初始化值：
+        servletContext.getInitParameter();
+
+十、业务层
+    1. MVC
+       包括： Model(模型), View(视图), Controller(控制器)
+       - 视图层： 用于做数据展示以及和用户交换的一个界面
+       - 控制层： 能够接受客户端的请求，具体业务功能需要借助模型组件来完成
+       - 模型层： 模型分为很多种：有比较简单的pojo/vo，有业务模型组件，数据访问层组件
+            1) pojo/vo: 值对象 (即数据载体，将数据库每条记录封装成一个pojo对象)
+            2) DAO: 数据访问对象 (用于访问数据库，里面有增删改查等方法)
+            3) BO: 业务对象
+
+    2. 区分 数据访问对象DAO 和 业务对象BO：
+        - DAO中方法都是单精度(或 细粒度)方法 (单精度：一个方法只考虑一个操作，比如添加就是insert操作)
+        - BO中的方法属于业务方法，实际业务较复杂，因此业务方法的精度是粗粒度方法
+            eg. 注册这个功能属于业务功能，因此注册这个方法就属于业务方法。
+                这个业务方法包含许多DAO方法，即注册这个业务功能需要通过多个DAO方法组合调用，从而完成注册功能
+            注册：
+            - 检查用户名是否已被注册 -> DAO中的select操作
+            - 向用户表新增一条用户记录 -> DAO中insert操作
+            - 向用户积分表新增一条记录 (新用户默认初始积分100分) -> DAO中的insert操作
+            - 向系统消息表新增一条记录 (某新用户注册了，需要根据通讯录向他联系人发消息) -> DAO中的insert操作
+            - 向系统日志表新增记录 (某用户在某时刻注册) -> DAO中的insert操作
+    3. 在库存系统中添加业务层组件
+
+十一、 IOC
+    1. 耦合/依赖
+        在软件系统中，层与层之间是存在依赖的，我们也称之为耦合
+        我们系统设计的一个原则是： 高内聚低耦合
+        层内部组成应高度聚合的，而层与层之间关系应该是低耦合的(理想情况是无耦合)
+
+
+
+
 
 新建项目配置步骤：
     1. Project Structure -> Module -> dependencies -> add library

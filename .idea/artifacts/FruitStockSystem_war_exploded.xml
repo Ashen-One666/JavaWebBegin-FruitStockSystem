@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="javaWebBegin:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/javaWebBegin_war_exploded</output-path>
+  <artifact type="exploded-war" name="FruitStockSystem:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/FruitStockSystem_war_exploded</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -11,7 +11,7 @@
           <element id="library" level="project" name="lib_mysql" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="javaWebBegin/web/Web" />
+      <element id="javaee-facet-resources" facet="FruitStockSystem/web/Web" />
     </root>
   </artifact>
 </component>

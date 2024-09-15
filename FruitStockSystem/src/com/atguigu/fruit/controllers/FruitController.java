@@ -1,11 +1,10 @@
 package com.atguigu.fruit.controllers;
 
-import com.atguigu.fruit.dao.FruitDAO;
-import com.atguigu.fruit.dao.impl.FruitDAOImpl;
+import com.atguigu.fruit.biz.FruitService;
+import com.atguigu.fruit.biz.impl.FruitServiceImpl;
 import com.atguigu.fruit.pojo.Fruit;
 import com.atguigu.myssm.uil.StringUtil;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -15,7 +14,9 @@ import java.util.List;
 // FruitController不是一个servlet组件，而是一个控制器
 public class FruitController {
 
-    FruitDAO fruitDAO = new FruitDAOImpl();
+    // Controller不直接调用DAO，而是调用Service方法，Service再组合调用DAO方法
+    //private FruitDAO fruitDAO = new FruitDAOImpl();
+    private FruitService fruitService = new FruitServiceImpl();
 
     // FruitController不再是servlet组件，因此不需要重写service方法了
 
@@ -62,15 +63,15 @@ public class FruitController {
         session.setAttribute("pageNo", pageNo);
 
         // --------------------------------------- 查询数据库 ---------------------------------------
-        FruitDAO fruitDAO = new FruitDAOImpl();
+
         // keyword为空时返回所有记录(因为查询使用的通配符 %keyword%)
-        List<Fruit> fruitList = fruitDAO.getFruitList(keyword, pageNo);
+        List<Fruit> fruitList = fruitService.getFruitList(keyword, pageNo);
         // fruitList保存到session作用域
         session.setAttribute("fruitList", fruitList);
 
-        int fruitCount = fruitDAO.getFruitCount(keyword);
+        int pageCount = fruitService.getPageCount(keyword);
         // 5条记录为1页
-        int pageCount = (fruitCount + 5 - 1) / 5;
+        //int pageCount = (fruitCount + 5 - 1) / 5;
         // 总页数pageCount保存到session作用域
         session.setAttribute("pageCount", pageCount);
 
@@ -84,9 +85,8 @@ public class FruitController {
     }
 
     private String add(String fname, Integer price, Integer fcount, String remark) {
-        int nowId = fruitDAO.getFruitCount();
-        Fruit fruit = new Fruit(nowId, fname, price, fcount, remark);
-        fruitDAO.addFruit(fruit);
+        Fruit fruit = new Fruit(0, fname, price, fcount, remark);
+        fruitService.addFruit(fruit);
 
         //response.sendRedirect("fruit.do");
         return "redirect:fruit.do";
@@ -95,7 +95,7 @@ public class FruitController {
     private String del(Integer fid)  {
         if(fid!=null){
             //System.out.println("del");
-            fruitDAO.delFruit(fid);
+            fruitService.delFruit(fid);
             //response.sendRedirect("fruit.do");
             return "redirect:fruit.do";
         }
@@ -105,7 +105,7 @@ public class FruitController {
     private String edit(Integer fid, HttpServletRequest request) {
         //String fidStr = request.getParameter("fid");
         if(fid!=null){
-            Fruit fruit = fruitDAO.getFruitByFid(fid);
+            Fruit fruit = fruitService.getFruitByFid(fid);
             request.setAttribute("fruit", fruit);
             // thymeleaf渲染到edit.html页面上
             //super.processTemplate("edit", request, response);
@@ -121,7 +121,7 @@ public class FruitController {
         // 2. 获取参数(不需要了，从 request参数中获取 已经改为 传参进来)
 
         // 3. 执行更新
-        fruitDAO.updateFruit(new Fruit(fid, fname, price, fcount, remark));
+        fruitService.updateFruit(new Fruit(fid, fname, price, fcount, remark));
 
         // 4. 资源跳转：回到index页面上
 
