@@ -1,4 +1,4 @@
-package com.atguigu.fruit.biz;
+package com.atguigu.fruit.service;
 
 import com.atguigu.fruit.pojo.Fruit;
 

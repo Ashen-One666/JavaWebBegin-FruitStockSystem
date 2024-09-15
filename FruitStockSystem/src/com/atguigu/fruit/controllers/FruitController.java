@@ -1,7 +1,6 @@
 package com.atguigu.fruit.controllers;
 
-import com.atguigu.fruit.biz.FruitService;
-import com.atguigu.fruit.biz.impl.FruitServiceImpl;
+import com.atguigu.fruit.service.FruitService;
 import com.atguigu.fruit.pojo.Fruit;
 import com.atguigu.myssm.uil.StringUtil;
 
@@ -15,8 +14,8 @@ import java.util.List;
 public class FruitController {
 
     // Controller不直接调用DAO，而是调用Service方法，Service再组合调用DAO方法
-    //private FruitDAO fruitDAO = new FruitDAOImpl();
-    private FruitService fruitService = new FruitServiceImpl();
+    // 解耦合：fruitService = ( new fruitServiceImpl -> null )
+    private FruitService fruitService = null;
 
     // FruitController不再是servlet组件，因此不需要重写service方法了
 

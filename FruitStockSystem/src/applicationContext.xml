@@ -2,7 +2,21 @@
 
 <beans>
     <!-- bean标签作用：将来servletPath中涉及名字对应的是fruit，那么就要FruitController这个类来处理 -->
-    <bean id="fruit" class="com.atguigu.fruit.controllers.FruitController"/>
+
+    <!-- 1. 描述需要哪些组件 + 描述组件之间的依赖关系 -->
+
+    <!-- 三个bean标签对应三个模型(组件)： controller, service, dao -->
+    <bean id="fruitDAO" class="com.atguigu.fruit.dao.impl.FruitDAOImpl"/>
+
+    <bean id="fruitService" class="com.atguigu.fruit.service.impl.FruitServiceImpl">
+        <!-- property标签用来表示属性，name用来表示属性名，ref表示引用其他bean的id值 -->
+        <!-- fruitService中的 private属性fruitDAO 引用 id="fruitDAO"的bean标签 -->
+        <property name="fruitDAO" ref="fruitDAO"/>
+    </bean>
+
+    <bean id="fruit" class="com.atguigu.fruit.controllers.FruitController">
+        <property name="fruitService" ref="fruitService"/>
+    </bean>
 
 </beans>
 
@@ -16,4 +30,11 @@
     1) XML声明 (必须有，且声明这一行代码必须在XML文件第一行)
     2) DTD 文档类型定义
     3) XML正文
+
+3. 节点
+    Node 节点
+        Element 元素节点
+        Text 文本节点
+    eg. 对于上面的 bean id="fruitService" 这一bean标签，有7个子节点
+        分别是： <bean ...>和注释1间的空白  <注释1>  空白  <注释2>  空白  <property ...>  property和</bean>间的空白
 -->

@@ -1,5 +1,7 @@
 package com.atguigu.myssm.myspringmvc;
 
+import com.atguigu.myssm.io.BeanFactory;
+import com.atguigu.myssm.io.ClassPathXmlApplicationContext;
 import com.atguigu.myssm.uil.StringUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,62 +41,18 @@ import java.util.Map;
 public class DispatcherServlet extends ViewBaseServlet{
 
     // 框架就是： 注解 + 反射
-
     // 使用中央控制器DispatcherServlet的好处是不需要在每个controller中都写反射的代码，而是把这部分代码统一抽取到这里
 
-    // 把xml配置文件bean标签所有实例对象全部加载，保存在Map对象中
-    private Map<String, Object> beanMap = new HashMap<>();
+    private BeanFactory beanFactory;
 
     // 在Servlet初始化函数中，解析xml配置文件
     public DispatcherServlet() {
-
     }
 
     public void init() throws ServletException {
         super.init();
-        // 这一过程是通过document对象解析xml配置文件文件信息 (可以类比为 用文件指针解析文件信息)
-        try{
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("applicationContext.xml");
-            // 1. 创建DocumentBuilderFactory对象
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            // 2. 创建DocumentBuilder对象，DocumentBuilder可以将xml文件解析为一个Document对象，然后就可以通过这个对象获取数据了
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            // 3. 创建Document对象
-            Document document = documentBuilder.parse(inputStream);
-            // 4. 获取所有bean节点
-            NodeList beanNodeList = document.getElementsByTagName("bean");
-            for (int i = 0; i < beanNodeList.getLength(); i++) {
-                Node beanNode = beanNodeList.item(i);
-                if (beanNode.getNodeType() == Node.ELEMENT_NODE) {
-                    // 强转是为了调用API，好比new了子类实例并赋给父类对象，但想用子类方法，则需要强转为子类
-                    // Element类中有getAttribute方法
-                    Element beanElement = (Element) beanNode;
-                    // 这样就获取到了xml文件中的id和class属性
-                    String beanId = beanElement.getAttribute("id");
-                    String className = beanElement.getAttribute("class");
-                    // beanId需要对应的是它的实例对象，而不是实例名className，因此通过反射来获取
-                    Class controllerBeanClass = Class.forName(className);
-                    Object beanObj = controllerBeanClass.newInstance();
-
-                    // 通过Map来实现对应关系
-                    beanMap.put(beanId, beanObj);
-                }
-            }
-
-        } catch (ParserConfigurationException e){
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
+        // 初始化的时候创建bean工厂，而不是实例化的时候再创建
+        beanFactory = new ClassPathXmlApplicationContext();
 
         System.out.println("中央控制器初始化...");
     }
@@ -117,7 +75,7 @@ public class DispatcherServlet extends ViewBaseServlet{
         servletPath = servletPath.substring(0, lastDotIndex); // 去掉.do
 
         // 中央控制器初始化方法init()中已经通过DOM技术将对应关系存储在beanMap容器中了，这里直接根据请求fruit获取到FruitController
-        Object controllerBeanObj = beanMap.get(servletPath);
+        Object controllerBeanObj = beanFactory.getBean(servletPath);
 
         String operate = request.getParameter("operate");
         // 初始化默认是index
