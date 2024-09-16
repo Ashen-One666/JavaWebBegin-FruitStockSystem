@@ -183,6 +183,7 @@
             )
 
 九、Servlet中ServletContext和<context-param>
+    (ServletContext: 和应用程序相关，任何Servlet都能获取到)
     1. 获取ServletContext方法：
         在初始化方法中： ServletContext servletContext = getServletContext();
         在服务方法中:
@@ -196,7 +197,7 @@
        包括： Model(模型), View(视图), Controller(控制器)
        - 视图层： 用于做数据展示以及和用户交换的一个界面
        - 控制层： 能够接受客户端的请求，具体业务功能需要借助模型组件来完成
-       - 模型层： 模型分为很多种：有比较简单的pojo/vo，有业务模型组件，数据访问层组件
+       - 模型层： 模型分为很多种：值对象模型(pojo)，业务逻辑模型(BO)，数据访问模型(DAO)，数据传输对象(DTO)
             1) pojo/vo: 值对象 (即数据载体，将数据库每条记录封装成一个pojo对象)
             2) DAO: 数据访问对象 (用于访问数据库，里面有增删改查等方法)
             3) BO: 业务对象
@@ -220,6 +221,28 @@
         我们系统设计的一个原则是： 高内聚低耦合
         层内部组成应高度聚合的，而层与层之间关系应该是低耦合的(理想情况是无耦合)
     2. 控制反转(IOC)、依赖注入(DI)
+        (控制反转是一种降低耦合的方式，依赖注入是一种常见的控制反转方法)
+        1) 控制反转：
+            - 改进前：在Servlet中创建Service对象(即业务模型对象): FruitService fruitService = new FruitServiceImpl();
+              如果出现在Servlet某方法内部，那么该fruitService对象作用域(生命周期)是这个方法级别;
+              如果出现在Servlet类中(是Servlet的一个成员变量)，那么该fruitService对象作用域(生命周期)是这个Servlet级别;
+            - 改进后：在applicationContext.xml中定义了这个fruitService，然后通过解析xml，产生fruitService实例，
+              存放在beanMap中，这beanMap在一个beanFactory中。
+              因此，我们转移(改变)了之前的service实例、dao实例等它们的生命周期，控制权从程序员转移到beanFactory，
+              这个现象称之为控制反转，beanFactory称之为一个IOC容器
+        2) 依赖注入：
+            - 改进前：在控制层出现代码: FruitService fruitService = new FruitServiceImpl();
+              那么，控制层和Service层存在耦合
+            - 改进后：我们将代码修改成: FruitService fruitService = null;
+              然后在配置文件中配置:
+              <bean id="fruit" class="FruitController">
+                    <property name="fruitService" ref="fruitService"/>
+              </bean>
+              这样就表明FruitController需要fruitService，因此IOC容器在解析xml文件时会寻找到fruitService实例，
+              然后注入到FruitController中(之前是主动获取FruitService fruitService = new FruitServiceImpl()，现在是注入)
+              注入是依靠反射技术进行的
+
+
 
 
 
