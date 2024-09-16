@@ -242,7 +242,11 @@
               然后注入到FruitController中(之前是主动获取FruitService fruitService = new FruitServiceImpl()，现在是注入)
               注入是依靠反射技术进行的
 
+十二、过滤器 Filter
 
+十三、事务管理 (TransactionManager, ThreadLocal, OpenSessionInViewFilter)
+
+十四、监听器 Listener
 
 
 
