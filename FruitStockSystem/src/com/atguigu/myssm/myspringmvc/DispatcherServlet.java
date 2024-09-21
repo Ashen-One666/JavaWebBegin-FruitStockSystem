@@ -1,5 +1,6 @@
 package com.atguigu.myssm.myspringmvc;
 
+import com.atguigu.myssm.basedao.DAOException;
 import com.atguigu.myssm.io.BeanFactory;
 import com.atguigu.myssm.io.ClassPathXmlApplicationContext;
 import com.atguigu.myssm.uil.StringUtil;
@@ -59,8 +60,7 @@ public class DispatcherServlet extends ViewBaseServlet{
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 设置编码
-        request.setCharacterEncoding("utf-8");
+        // 在编码过滤器中设置编码
 
         /*
         * 假设URL： http://localhost:8080/fruit.do
@@ -156,10 +156,10 @@ public class DispatcherServlet extends ViewBaseServlet{
             }*/
         } /*catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
-        }*/ catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        }*/ catch (Exception e) {
+            e.printStackTrace();
+            throw new DispatcherServletException("DispatcherServlet error");
+            //throw new RuntimeException(e);
         }
 
     }

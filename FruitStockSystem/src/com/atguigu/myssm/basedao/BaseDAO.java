@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseDAO<T> {
+/*
     public final String DRIVER = "com.mysql.cj.jdbc.Driver" ;
     public final String URL = "jdbc:mysql://localhost:3306/fruit?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8&useSSL=false";
     public final String USER = "root";
     public final String PWD = "401128" ;
+*/
 
     protected Connection conn ;
     protected PreparedStatement psmt ;
@@ -34,10 +36,15 @@ public abstract class BaseDAO<T> {
             entityClass = Class.forName(actualType.getTypeName());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            // 将DAO的异常封装并向上抛出，让Servlet捕获处理
+            // (如果DAO只是自己try-catch却不向上抛异常，那么Servlet无法知道DAO出现异常，导致事务回滚时仅错误的那个事务回滚)
+            // 这样事务回滚时同一个connection中的事务会全部回滚而非仅错误的那个事务回滚
+            throw new DAOException("BaseDAO init error");
         }
     }
 
     protected Connection getConn(){
+       /*
         try {
             //1.加载驱动
             Class.forName(DRIVER);
@@ -47,9 +54,13 @@ public abstract class BaseDAO<T> {
             e.printStackTrace();
         }
         return null ;
+        */
+        return ConnUtil.getConn() ;
     }
 
     protected void close(ResultSet rs , PreparedStatement psmt , Connection conn){
+        // 所有DAO都使用同一个Connection，因此close现在不在DAO中执行，而是在事务处理过滤器中执行
+        /*
         try {
             if (rs != null) {
                 rs.close();
@@ -63,6 +74,7 @@ public abstract class BaseDAO<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        */
     }
 
     //给预处理命令对象设置参数
@@ -99,10 +111,11 @@ public abstract class BaseDAO<T> {
             return count ;
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DAOException("BaseDAO executeUpdate error");
         }finally {
             close(rs,psmt,conn);
         }
-        return 0;
+        //return 0;
     }
 
     //通过反射技术给obj对象的property属性赋propertyValue值
@@ -117,6 +130,7 @@ public abstract class BaseDAO<T> {
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
+            throw new DAOException("BaseDAO setValue error");
         }
     }
 
@@ -145,6 +159,7 @@ public abstract class BaseDAO<T> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DAOException("BaseDAO executeComplexQuery error");
         } finally {
             close(rs,psmt,conn);
         }
@@ -176,12 +191,9 @@ public abstract class BaseDAO<T> {
                 }
                 return entity ;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+            throw new DAOException("BaseDAO load error");
         } finally {
             close(rs,psmt,conn);
         }
@@ -215,12 +227,9 @@ public abstract class BaseDAO<T> {
                 }
                 list.add(entity);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+            throw new DAOException("BaseDAO executeQuery error");
         } finally {
             close(rs,psmt,conn);
         }

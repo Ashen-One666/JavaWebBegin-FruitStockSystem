@@ -243,8 +243,53 @@
               注入是依靠反射技术进行的
 
 十二、过滤器 Filter
+    1. Filter也属于Servlet规范
+    2. Filter开发步骤：
+        - 新建实现Filter接口，然后实现其中的三个方法(init. doFilter, destroy)
+        - 配置Filter，可以注解@WebFilter，也可以使用xml文件<filter> <filter-mapping>
+    3. Filter在配置时和Servlet类似，也可以配置通配符，例如 @WebFilter(/*.do)，表示拦截所有以.do结尾的请求
+    4. 过滤器链
+        1) 三个过滤器ABC执行顺序： A B C Servlet... C B A
+        2) 如果采取注解方式配置，则过滤器链拦截顺序是按照全类名的先后顺序排序
+        3) 如果采取xml的方式配置，则过滤器链拦截顺序是按照全配置的先后顺序排序
 
 十三、事务管理 (TransactionManager, ThreadLocal, OpenSessionInViewFilter)
+    1. 涉及到的组件：
+        - OpenSessionInViewFilter
+        - TransactionManager
+        - ThreadLocal
+        - ConnUtil
+        - BaseDAO
+    2. ThreadLocal
+        - 常用方法： get(), set(obj)
+        - ThreadLocal称为本地线程(其实是用来提供线程的局部变量)
+          我们可以通过set方法在当前线程上存储数据，通过get方法获取当前线程上的数据
+        - set方法源码分析：
+          public void set(T value) {
+                  Thread t = Thread.currentThread(); // 获取当前线程
+                  ThreadLocalMap map = getMap(t); // 每个线程都维护各自的一个容器 (ThreadLocalMap)
+                  if (map != null)
+                      map.set(this, value); // this是当前的ThreadLocal，不是当前线程 (一个线程对应一个map对应多个ThreadLocal变量)
+                                            // 因为我们的组件中需要传输(共享)的对象可能有多个(不止Connection一个)
+                                            // 一个ThreadLocal只负责保存一个传输(共享)的对象
+                  else
+                      createMap(t, value); // 默认情况map未初始化，第一次向其中添加数据时会初始化
+              }
+        - get方法源码分析：
+          public T get() {
+                  Thread t = Thread.currentThread(); // 获取当前线程(定位到是哪家企业)
+                  ThreadLocalMap map = getMap(t); // 获取这个线程(企业)相关的ThreadLocalMap(当前企业的工作纽带)
+                  if (map != null) {
+                      ThreadLocalMap.Entry e = map.getEntry(this); // this指ThreadLocal对象(通过它才能知道是工作纽带上的哪个工具箱)
+                      if (e != null) {
+                          @SuppressWarnings("unchecked")
+                          T result = (T)e.value; // entry.value就可以获取到工具箱了
+                          return result;
+                      }
+                  }
+                  return setInitialValue();
+              }
+
 
 十四、监听器 Listener
 
