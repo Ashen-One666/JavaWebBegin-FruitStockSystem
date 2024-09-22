@@ -16,6 +16,13 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * IOC容器负责对象的创建(区别于程序员new对象,控制反转)以及对象属性的初始化(属性注入)
+ * 对象的创建 - 作用 : Servlet解析URL后得到组件名(如fruit), IOC就能给出叫做fruit的FruitController的实例对象
+ * 对象属性的初始化 - 作用 : 如果组件Controller依赖组件Service, IOC能将Controller的一个属性指向Service实例对象
+ *                       (不需要在Controller中new，避免耦合)
+ */
+
 public class ClassPathXmlApplicationContext implements BeanFactory {
 
     private Map<String, Object> beanMap = new HashMap<>();
@@ -40,7 +47,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             // 3. 创建Document对象
             Document document = documentBuilder.parse(inputStream);
-            // 4. 获取所有bean节点, 并将bean的id和实例对象放到beanMap容器中
+            // 4. 获取所有bean节点, 并将bean的id和实例对象放到beanMap容器中 (实现组件名和组件实例的对应)
             NodeList beanNodeList = document.getElementsByTagName("bean");
             for (int i = 0; i < beanNodeList.getLength(); i++) {
                 Node beanNode = beanNodeList.item(i);
@@ -60,7 +67,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
                     // 需要注意的是，代码到此处 bean和bean之间的依赖关系还未设置
                 }
             }
-            // 5. 组装bean之间的依赖关系 (property)
+            // 5. 组装bean之间的依赖关系 (property) (实现组件和组件的依赖)
             for (int i = 0; i < beanNodeList.getLength(); i++) {
                 Node beanNode = beanNodeList.item(i);
                 if (beanNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -82,7 +89,9 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
                             Class<?> beanClazz = beanObj.getClass();
                             Field propertyField = beanClazz.getDeclaredField(propertyName);
                             propertyField.setAccessible(true);
-                            propertyField.set(beanObj, refObj);
+                            // 例如Controller组件依赖Service组件，
+                            // 则将Controller中的service(这个service指Controller的一个private属性)赋值指向Service实例对象
+                            propertyField.set(beanObj, refObj); // 实现依赖注入 (反射)
                         }
                     }
                 }
