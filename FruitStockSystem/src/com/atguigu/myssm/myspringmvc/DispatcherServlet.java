@@ -1,29 +1,15 @@
 package com.atguigu.myssm.myspringmvc;
 
-import com.atguigu.myssm.basedao.DAOException;
-import com.atguigu.myssm.io.BeanFactory;
-import com.atguigu.myssm.io.ClassPathXmlApplicationContext;
-import com.atguigu.myssm.uil.StringUtil;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import com.atguigu.myssm.ioc.BeanFactory;
+import com.atguigu.myssm.util.StringUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * DispatcherServlet是中央控制器，是真正的servlet，处理所有.do请求
@@ -53,7 +39,20 @@ public class DispatcherServlet extends ViewBaseServlet{
     public void init() throws ServletException {
         super.init();
         // 初始化的时候创建bean工厂，而不是实例化的时候再创建
-        beanFactory = new ClassPathXmlApplicationContext();
+        /*
+           性能优化改进： bean工厂不在中央控制器初始化中创建，而是在ServletContext(Application)初始化时创建，
+                       中央控制器在Application作用域中获取，这样初始化时间略长，但后续的响应时间缩短
+           实现方法： 在监听器ContextLoaderListener中创建，在中央控制器获取
+         */
+        // beanFactory = new ClassPathXmlApplicationContext();
+        ServletContext application = getServletContext();
+        Object beanFactoryObj = application.getAttribute("beanFactory");
+        if(beanFactoryObj != null) {
+            beanFactory = (BeanFactory) beanFactoryObj;
+        }
+        else{
+            throw new RuntimeException("IOC容器获取失败");
+        }
 
         System.out.println("中央控制器初始化...");
     }

@@ -108,6 +108,13 @@
     </servlet-mapping>
 
 
+    <!-- IOC容器配置文件 -->
+    <!-- 这里IDEA报错是因为编译器认为是Spring的配置文件，实际上这个配置文件是自己写的 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>applicationContext.xml</param-value>
+    </context-param>
+
     <!-- Thymeleaf配置 -->
     <!-- context-param: 配置上下文参数 -->
     <context-param>

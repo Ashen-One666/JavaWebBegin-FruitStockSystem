@@ -19,15 +19,15 @@ public class OpenSessionInViewFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try{
             TransactionManager.beginTrans();
-            System.out.println("开启事务...");
+            // System.out.println("开启事务...");
             filterChain.doFilter(servletRequest, servletResponse); // 如果Servlet中Service的某个DAO有问题就catch回滚
             TransactionManager.commit();
-            System.out.println("提交事务...");
+            // System.out.println("提交事务...");
         }catch (Exception e){
             e.printStackTrace();
             try {
                 TransactionManager.rollback();
-                System.out.println("回滚事务...");
+                // System.out.println("回滚事务...");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }

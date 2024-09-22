@@ -43,7 +43,8 @@ public class ConnUtil {
         // close是将连接从threadLocal移除
         if(!conn.isClosed()){
             conn.close();
-            threadLocal.set(null);
+            //threadLocal.set(null);
+            threadLocal.remove();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.atguigu.myssm.uil;
+package com.atguigu.myssm.util;
 
 public class StringUtil {
     // 判断字符串是否为null或者为""

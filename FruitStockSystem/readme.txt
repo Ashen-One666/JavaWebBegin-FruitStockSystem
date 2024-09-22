@@ -289,11 +289,47 @@
                   }
                   return setInitialValue();
               }
+    3. 定义
+        事务管理是指在操作数据库或其他资源时，确保一组操作作为一个整体执行，要么全部成功，要么全部失败。(确保数据的完整性和一致性)
 
+    4. 事务的四大特性（ACID）
+        - 原子性 (Atomicity)：事务中的所有操作要么全部执行成功，要么全部回滚，不会出现部分执行的情况。
+        - 一致性 (Consistency)：事务完成后，数据库必须保持一致的状态，即遵循所有的约束和规则。
+        - 隔离性 (Isolation)：多个事务并发执行时，事务之间互相独立，不能相互干扰。
+        - 持久性 (Durability)：一旦事务提交，其结果将永久保存到数据库中，即使系统崩溃也不会丢失。
+    5. 事务管理方式
+        - 编程式事务管理：通过代码手动控制事务的开始、提交和回滚。
+        - 声明式事务管理：通过配置文件或注解，使用Spring等框架自动管理事务。
+    6. 本项目中的事务管理
+        - 在本项目中，一个业务功能成功意味着该业务功能包含的多个DAO方法都成功，如果某DAO失败，那必须使所有DAO方法都失败
+        - 一个事务中多个操作需要使用Connection进行共享，因此引入ThreadLocal
+        - 事务抽取成一个类TransactionManager，包含begin, commit, rollback方法，同时将每个方法中重复的操作抽取成ConnUtil
+        - ConnUtil包含两个方法：getConn(), closeConn()
 
 十四、监听器 Listener
+    (监听三个对象的创建和销毁)
+    1. ServletContextListener - 监听ServletContext对象的创建和销毁的过程
+    2. HttpSessionListener - 监听HttpSession对象的创建和销毁的过程
+    3. ServletRequestListener - 监听ServletRequest对象的创建和销毁的过程
 
+    (监听三个域对象的增删改)
+    4. ServletContextAttributeListener - 监听ServletContext的保存作用域的改动(add,remove,replace)
+    5. HttpSessionAttributeListener - 监听HttpSession的保存作用域的改动(add,remove,replace)
+    6. ServletRequestAttributeListener - 监听ServletRequest的保存作用域的改动(add,remove,replace)
 
+    7. HttpSessionBindingListener - 监听某对象在Session域中的创建和移除
+    8. HttpSessionActivationListener - 监听某对象在Session域中的序列化(钝化)和反序列化(活化)
+
+    ServletContextListener的应用 - ContextLoaderListener
+
+项目Package:
+    - IOC: 整个应用程序(application)所有组件的管理 (包括三个组件 controller, service, dao)
+    - myspringmvc: 包含MVC中的M,V,C (DispatcherServlet就属于C)
+    上述两个Package应该是独立的，没有任何关系 (因此最好不要在DispatcherServlet完成IOC容器的创建)
+    DispatcherServlet和IOC容器：
+        事实上，IOC容器的角色比DispatcherServlet大得多
+        中央控制器(DispatcherServlet)： 将发来的请求对应到某个Controller上
+        IOC容器(beanFactory)的角色： 管理 控制层/业务逻辑层/数据访问层 以及各层之间依赖关系的注入
 
 
 新建项目配置步骤：

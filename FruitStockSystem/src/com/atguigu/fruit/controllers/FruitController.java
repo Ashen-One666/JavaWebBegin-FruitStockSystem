@@ -2,7 +2,7 @@ package com.atguigu.fruit.controllers;
 
 import com.atguigu.fruit.service.FruitService;
 import com.atguigu.fruit.pojo.Fruit;
-import com.atguigu.myssm.uil.StringUtil;
+import com.atguigu.myssm.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -59,6 +59,8 @@ public class FruitController {
         eg. button“下一页”获取到参数session.pageNo(当前页)，并将pageNo+1传到js函数page()中，js再跳转到IndexServlet中，
             同时将pageNo = pageNo+1传进来，那么在IndexServlet会将pageNo+1更新到session中，此时当前页就变成下一页了
         */
+
+        // 事实上，controller也可以和session解耦，但本项目中未实现
         session.setAttribute("pageNo", pageNo);
 
         // --------------------------------------- 查询数据库 ---------------------------------------

@@ -1,5 +1,6 @@
-package com.atguigu.myssm.io;
+package com.atguigu.myssm.ioc;
 
+import com.atguigu.myssm.util.StringUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,11 +19,21 @@ import java.util.Map;
 public class ClassPathXmlApplicationContext implements BeanFactory {
 
     private Map<String, Object> beanMap = new HashMap<>();
+    private String path = "applicationContext.xml";// 默认值
 
-    public ClassPathXmlApplicationContext() {
+    // 无参构造调用有参构造，即IOC容器的配置文件默认为applicationContext.xml
+    public ClassPathXmlApplicationContext(){
+        this("applicationContext.xml");
+    }
+
+    // 调用有参构造可以指定IOC容器的配置文件
+    public ClassPathXmlApplicationContext(String path) {
+        if(StringUtil.isEmpty(path)){
+            throw new NullPointerException("IOC容器的配置文件没有指定");
+        }
         try{
             // DOM解析技术: 这一过程是通过document对象解析xml配置文件文件信息 (可以类比为 用文件指针解析文件信息)
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("applicationContext.xml");
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
             // 1. 创建DocumentBuilderFactory对象
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             // 2. 创建DocumentBuilder对象，DocumentBuilder可以将xml文件解析为一个Document对象，然后就可以通过这个对象获取数据了

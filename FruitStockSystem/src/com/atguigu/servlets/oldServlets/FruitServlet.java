@@ -4,10 +4,9 @@ import com.atguigu.fruit.dao.FruitDAO;
 import com.atguigu.fruit.dao.impl.FruitDAOImpl;
 import com.atguigu.fruit.pojo.Fruit;
 import com.atguigu.myssm.myspringmvc.ViewBaseServlet;
-import com.atguigu.myssm.uil.StringUtil;
+import com.atguigu.myssm.util.StringUtil;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
