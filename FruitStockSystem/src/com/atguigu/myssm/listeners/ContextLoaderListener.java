@@ -8,7 +8,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-// 监听上下文启动，在上下文启动时创建IOC容器，将其保存到application作用域，还没中央控制器在application作用域获取容器
+// 监听上下文启动，在上下文启动时创建IOC容器，将其保存到application作用域，中央控制器在application作用域获取容器
 @WebListener
 public class ContextLoaderListener implements ServletContextListener {
     @Override
